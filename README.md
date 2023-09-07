@@ -1,1 +1,1 @@
-# SS_model_interactivate
+# Joint-VAE_TMDesign
