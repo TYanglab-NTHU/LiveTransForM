@@ -187,7 +187,7 @@ class Genlig():
                 if len(spin_state_prediction) != 1:
                     raise ('The model predicts different spin states in different orientations')
                 else:
-                    print(spin_state)
+                    print('The model predict SS is %s' %spin_state)
         else:
             raise ValueError('Structure might not be octahedral')
 
@@ -289,7 +289,6 @@ class Genlig():
                                 step_size += 0.1
                                 step_size_limit += 1
                                 print('Increase step size!')
-                                print(step_size_limit)
                             if step_size_limit > max_step_size_limit:
                                 raise ValueError("Couldn't find a suitable mutated ligand, maybe try a different initial step size")
                             count += 1
@@ -418,7 +417,7 @@ class Genlig():
                         raise ValueError('The model predicts different spin states in different orientations')
                     else:
                         SS = next(iter(spin_state_prediction))
-                        print('original spin_state is', SS)
+                        print('original SS is', SS)
 
                 # Print the available ligands for the user to choose from
                 print('Seed mutation start')
@@ -475,7 +474,7 @@ class Genlig():
                 print('\nMutation Finished \n___________________________\n')
                 comparsion_ligs = [(i, j) for i, j in zip(idx_dict.values(), idx_dict_copy.values())]
                 for idx, (original_lig, mutated_lig) in enumerate(comparsion_ligs):
-                    print(f'Lig{idx} : Original {original_lig}, Mutated lig {mutated_lig}')
+                    print(f'Lig{idx} : Origina: {original_lig}, Mutated: {mutated_lig}')
                     
                 spin_state_prediction = set()  # Initialize a set to store spin state predictions
                 final_batches = self.IdxTosmiles(axial_equ_pair,idx_dict)
@@ -513,15 +512,20 @@ if __name__ == '__main__':
                         "You can also type 'exit' to quit: ")
 
         if user_input.lower() == 'exit':
-            print("Exiting the program. Goodbye!")
-            break
-
+            raise ValueError("Exiting the program. Goodbye!")
+            
         if user_input in valid_assign_list:
-            print(f"You've chosen the oxidation state: {user_input}")
+            if user_input == str(0):
+                print(f"You've chosen the model : SpinStatePrediction_from_xyz\n")
+            elif user_input == str(1):
+                print(f"You've chosen the model : SingleMutation_from_xyz\n")
+            elif user_input == str(2):
+                print(f"You've chosen the model : SeedMutation_from_xyz\n")
             assign = user_input
             break
         else:
             print("Invalid input. Please choose from the provided options.")
+    
     if assign == str(0):
         gen_complex.SpinStatePrediction_from_xyz(xyz_file)
     elif assign == str(1):
