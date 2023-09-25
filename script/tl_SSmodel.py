@@ -138,7 +138,7 @@ class datautil():
         equ_vecs = self.recover(equ_ligs)
         data.append([axial_vecs,equ_vecs,refcode])
         return data
-        
+            
 if __name__ == '__main__':
     parser = OptionParser()
     parser.add_option('-v',"--vecs", dest="vec_path", default='../data/latent_vec.csv')
@@ -164,7 +164,6 @@ if __name__ == '__main__':
     anneal_rate = opts.anneal_rate
     if not os.path.isdir(save_dir):
         os.makedirs(save_dir)
-    vocab = opts.vocab
     latent_size = int(opts.latent_size)
     hidden_size = int(opts.hidden_size)
     spin_label = opts.spin_label
