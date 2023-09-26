@@ -36,3 +36,14 @@ Default Options:
 Please note that this is not necessarily the best annealing strategy. You are welcomed to adjust these parameters.
 
 # Training of ANN model fro Spin State Prediction
+
+## Training
+```
+python tl_SSmodel.py -v ../data/latent_vec.csv --ss_label -i ../data/TL_model_data.pkl --ss_label../data/TL_model_label.json --output ./../data/SS_VAE_model
+```
+
+# Usage of ANN model fro Spin State Prediction
+```
+python Find_ss.py -x xyzfile -s 0.01 -m 50
+```
+
