@@ -1,4 +1,5 @@
 # LiveTransForM
+![Figure abstract](https://github.com/TYanglab-NTHU/LiveTransForM/blob/main/data/art/abstract.png)
 
 ## About
 **LiveTransForm** joint semi-supervised JT-VAE (SSVAE) and artificial neural network (ANN) model for design of TM complexes as described in the manuscript "A Joint Semi-Supervised Variational Autoencoder and Transfer Learning Model for Designing Molecular Transition Metal Complexes".
