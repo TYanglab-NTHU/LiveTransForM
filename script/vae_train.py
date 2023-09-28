@@ -133,7 +133,7 @@ if __name__ == '__main__':
     lg.setLevel(rdkit.RDLogger.CRITICAL)
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--train', default='../data/vae_model_data')
+    parser.add_argument('--train', default='../data/vae_training_data')
     parser.add_argument('--vocab', default='../data/data_vocab.txt')
     parser.add_argument('--prop_path', default='../data/prop_ss.json')
     parser.add_argument('--save_dir', default='./model_train')

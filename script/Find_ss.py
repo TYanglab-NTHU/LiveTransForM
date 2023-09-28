@@ -48,7 +48,7 @@ class Genlig():
         self.ss_dict = {'HS': 1, 'LS': 0, 1: 'HS', 0:'LS'}
         
     def restore(self):
-        model_lfs_path = '../data/vae_model/JTVAE_model.epoch-89'
+        model_lfs_path = '../data/model/JTVAE_model.epoch-89'
         model_lfs = JTPropVAE(self.vocab, int(self.hidden_size_lfs), int(self.latent_size),int(prop_size),int(self.depthT),int(self.depthG))
         dict_buffer = torch.load(model_lfs_path, map_location='cuda:0')
         model_lfs.load_state_dict(dict_buffer)
@@ -56,7 +56,7 @@ class Genlig():
         model_lfs.eval()
         self._restored_lfs = True
         self.model_lfs = model_lfs
-        model_ss_path = '../data/vae_model/SS_model.epoch-100'
+        model_ss_path = '../data/model/SS_model.epoch-100'
         dict_buffer = torch.load(model_ss_path, map_location='cuda:0')
         model_ss = PropNN(28,56,0.5)
         model_ss.load_state_dict(dict_buffer)
