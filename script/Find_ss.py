@@ -299,7 +299,7 @@ class Genlig():
                             z_mol_mean_new = z_mol_mean + torch.exp(z_mol_log_var / 2) * epsilon_mol * step_size
                             smi_new = self.model_lfs.decode(z_tree_mean_new, z_mol_mean_new, prob_decode=False)
                             smi_new = checksmile(smi_new)
-                            if smi_new != selected_ligand:
+                            if smi_new != checksmile(selected_ligand):
                                 # Test decode smiles denticity
                                 try:
                                     tree_batch = [MolTree(smi_new)]
@@ -357,8 +357,10 @@ class Genlig():
                     final_point = idx_dict_copy[choice]
                     inital_point = idx_dict[choice]
                     while True:
-                        user_input = input("Want to perform interpolation of mutated ligand: (or enter exit to stop) \n  ")
-                        if user_input.lower() == '':
+                        user_input = input("Want to perform interpolation of mutated ligand: (or enter exit to stop) \n  "
+                                           "Please enter the number of interpolation point (interger) ")
+                        if user_input.lower() == '' or user_input.lower() == 'exit':
+                            interpolation = False
                             break
                         try:
                             delta_step = int(user_input)
@@ -381,11 +383,11 @@ class Genlig():
                             idx = 0
                             stepsize = 0.05
                             flag = True
-                            zvecs = zvecs_inital + one_piece * i
+                            zvecs = zvecs_inital + one_piece * (i + 1)
                             while flag:
                                 if idx == 0 or idx == 10:
                                     idx = 0
-                                    step_size += 0.1
+                                    stepsize += 0.1
                                 try:
                                     smi = self.model_lfs.decode(*torch.split((zvecs).unsqueeze(0),28,dim=1), prob_decode=False)
                                     tree_batch = [MolTree(smi)]
@@ -395,10 +397,11 @@ class Genlig():
                                     z_vecs_ = torch.cat((z_tree_,z_mol_),dim=1)
                                     denticity_predict_check = self.model_lfs.denticity_NN(z_vecs_)
                                     _, denticity_predict_check = torch.max(denticity_predict_check,1)
-                                    denticity_predict_check = denticity_predict_check + 1
-                                    if denticity_predict_check != denticity_ and smi == checksmile(inital_point):
-                                        zvecs_mutated = z_vecs_ +torch.randn_like(z_vecs_) * stepsize
-                                        smi = self.model_lfs.decode(*torch.split((zvecs_mutated).unsqueeze(0),28,dim=1), prob_decode=False)
+                                    denticity_predict_check = (denticity_predict_check + 1).item()
+                                    smi_check = checksmile(smi)
+                                    if denticity_predict_check != denticity_ or checksmile(smi) == checksmile(inital_point) or checksmile(smi) == checksmile(final_point):
+                                        zvecs_mutated = z_vecs_ + torch.randn_like(z_vecs_) * stepsize
+                                        smi = self.model_lfs.decode(*torch.split((zvecs_mutated),28,dim=1), prob_decode=False)
                                         tree_batch = [MolTree(smi)]
                                         _, jtenc_holder, mpn_holder = datautils.tensorize(tree_batch, self.model_lfs.vocab, assm=False)
                                         tree_vecs, _, mol_vecs = self.model_lfs.encode(jtenc_holder, mpn_holder)
@@ -406,11 +409,17 @@ class Genlig():
                                         z_vecs_ = torch.cat((z_tree_,z_mol_),dim=1)
                                         denticity_predict_check = self.model_lfs.denticity_NN(z_vecs_)
                                         _, denticity_predict_check = torch.max(denticity_predict_check,1)
-                                        denticity_predict_check = denticity_predict_check + 1
-                                        if denticity_predict_check == denticity_ and smi != checksmile(inital_point):
+                                        denticity_predict_check = (denticity_predict_check + 1).item()
+                                        smi_check = checksmile(smi)
+                                        if denticity_predict_check == denticity_ and smi_check != checksmile(inital_point) and smi_check == checksmile(final_point):
                                             flag = False
-                                            mutation_list.append([checksmile(smi),idx])
-                                except:
+                                            mutation_list.append([smi_check,i+1])
+                                    elif denticity_predict_check == denticity_ and smi_check != checksmile(inital_point) and smi_check == checksmile(final_point):
+                                        flag = False
+                                        mutation_list.append([smi_check,i+1])
+                                    idx += 1 
+                                except Exception as e:
+                                    print(e)
                                     pass
                         print('Interpolation finished')
                         for i in mutation_list:
