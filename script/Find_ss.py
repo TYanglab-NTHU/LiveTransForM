@@ -354,6 +354,70 @@ class Genlig():
                                                     break
                                 except:
                                     pass
+                    final_point = idx_dict_copy[choice]
+                    inital_point = idx_dict[choice]
+                    while True:
+                        user_input = input("Want to perform interpolation of mutated ligand: (or enter exit to stop) \n  ")
+                        if user_input.lower() == '':
+                            break
+                        try:
+                            delta_step = int(user_input)
+                            print(f"Number of interpolation set to: {delta_step}")
+                            interpolation = True
+                            break
+                        except:
+                            pass
+                    if interpolation:
+                        print('Interpolation start')
+                        mutation_list = []
+                        inital_vecs = self.zvec_from_smiles([inital_point])
+                        final_vecs = self.zvec_from_smiles([final_point])
+                        denticity_ = denticity_dict[selected_ligand]
+                        zvecs_inital = inital_vecs[0][0][0]
+                        zvecs_final = final_vecs[0][0][0]
+                        delta = zvecs_final - zvecs_inital
+                        one_piece = delta / delta_step
+                        for i in range(delta_step):
+                            idx = 0
+                            stepsize = 0.05
+                            flag = True
+                            zvecs = zvecs_inital + one_piece * i
+                            while flag:
+                                if idx == 0 or idx == 10:
+                                    idx = 0
+                                    step_size += 0.1
+                                try:
+                                    smi = self.model_lfs.decode(*torch.split((zvecs).unsqueeze(0),28,dim=1), prob_decode=False)
+                                    tree_batch = [MolTree(smi)]
+                                    _, jtenc_holder, mpn_holder = datautils.tensorize(tree_batch, self.model_lfs.vocab, assm=False)
+                                    tree_vecs, _, mol_vecs = self.model_lfs.encode(jtenc_holder, mpn_holder)
+                                    z_tree_, z_mol_ = self.model_lfs.T_mean(tree_vecs), self.model_lfs.G_mean(mol_vecs)
+                                    z_vecs_ = torch.cat((z_tree_,z_mol_),dim=1)
+                                    denticity_predict_check = self.model_lfs.denticity_NN(z_vecs_)
+                                    _, denticity_predict_check = torch.max(denticity_predict_check,1)
+                                    denticity_predict_check = denticity_predict_check + 1
+                                    if denticity_predict_check != denticity_ and smi == checksmile(inital_point):
+                                        zvecs_mutated = z_vecs_ +torch.randn_like(z_vecs_) * stepsize
+                                        smi = self.model_lfs.decode(*torch.split((zvecs_mutated).unsqueeze(0),28,dim=1), prob_decode=False)
+                                        tree_batch = [MolTree(smi)]
+                                        _, jtenc_holder, mpn_holder = datautils.tensorize(tree_batch, self.model_lfs.vocab, assm=False)
+                                        tree_vecs, _, mol_vecs = self.model_lfs.encode(jtenc_holder, mpn_holder)
+                                        z_tree_, z_mol_ = self.model_lfs.T_mean(tree_vecs), self.model_lfs.G_mean(mol_vecs)
+                                        z_vecs_ = torch.cat((z_tree_,z_mol_),dim=1)
+                                        denticity_predict_check = self.model_lfs.denticity_NN(z_vecs_)
+                                        _, denticity_predict_check = torch.max(denticity_predict_check,1)
+                                        denticity_predict_check = denticity_predict_check + 1
+                                        if denticity_predict_check == denticity_ and smi != checksmile(inital_point):
+                                            flag = False
+                                            mutation_list.append([checksmile(smi),idx])
+                                except:
+                                    pass
+                        print('Interpolation finished')
+                        for i in mutation_list:
+                            smiles,idx = i
+                            print("Point %s: %s" %(idx,smiles))                        
+                
+                
                                     
     def Seed_Mutation_from_xyz(self,xyz_file,metal=False,SS=False,scs_limit=None,step_size=0.01,max_step_size_limit=100):
         obmol = ob.OBMol()
@@ -474,7 +538,7 @@ class Genlig():
                 print('\nMutation Finished \n___________________________\n')
                 comparsion_ligs = [(i, j) for i, j in zip(idx_dict.values(), idx_dict_copy.values())]
                 for idx, (original_lig, mutated_lig) in enumerate(comparsion_ligs):
-                    print(f'Lig{idx} : Origina: {original_lig}, Mutated: {mutated_lig}')
+                    print(f'Lig{idx} : Original: {original_lig}, Mutated: {mutated_lig}')
                     
                 spin_state_prediction = set()  # Initialize a set to store spin state predictions
                 final_batches = self.IdxTosmiles(axial_equ_pair,idx_dict)
@@ -494,8 +558,8 @@ if __name__ == '__main__':
     parser = OptionParser()
     parser.add_option('-v', dest="vocab",default='../data/data_vocab.txt')
     parser.add_option('-x', dest="xyz_file")
-    parser.add_option('-s',dest="step_size",default=0.01)
-    parser.add_option('-m',dest="max_step_size",default=100)    
+    parser.add_option('-s',dest="step_size",type=int,default=0.01)
+    parser.add_option('-m',dest="max_step_size",type=int,default=100)    
     opts,args = parser.parse_args()
     vocab = opts.vocab
     xyz_file = opts.xyz_file
