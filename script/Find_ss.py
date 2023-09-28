@@ -411,10 +411,10 @@ class Genlig():
                                         _, denticity_predict_check = torch.max(denticity_predict_check,1)
                                         denticity_predict_check = (denticity_predict_check + 1).item()
                                         smi_check = checksmile(smi)
-                                        if denticity_predict_check == denticity_ and smi_check != checksmile(inital_point) and smi_check == checksmile(final_point):
+                                        if denticity_predict_check == denticity_ and smi_check != checksmile(inital_point) and smi_check != checksmile(final_point):
                                             flag = False
                                             mutation_list.append([smi_check,i+1])
-                                    elif denticity_predict_check == denticity_ and smi_check != checksmile(inital_point) and smi_check == checksmile(final_point):
+                                    elif denticity_predict_check == denticity_ and smi_check != checksmile(inital_point) and smi_check != checksmile(final_point):
                                         flag = False
                                         mutation_list.append([smi_check,i+1])
                                     idx += 1 
