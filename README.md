@@ -19,8 +19,6 @@ conda env create -f environment.yml
 conda activate LiveTransForm
 ```
 
-Installation should take under ten minutes in most cases.
-
 ## Ligand Generation!
 There is an IPython Notebook that you can open using Jupyter and/or other notebooks (not tested) named `script/Genlig.ipynb`. It contains steps how to generate ligand.
 You can also run Python code named `script/ligpool.py` to generate a ligand pool by setting a target SCScore limit and a denticity limit. 
