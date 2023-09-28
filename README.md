@@ -4,7 +4,9 @@
 ## About
 **LiveTransForm** joint semi-supervised JT-VAE (SSVAE) and artificial neural network (ANN) model for design of TM complexes as described in the manuscript "A Joint Semi-Supervised Variational Autoencoder and Transfer Learning Model for Designing Molecular Transition Metal Complexes".
 
-It allows for the embedding of molecules into a continuous latent space, and subsequent used transfer learning transition metal complexes spin state prediction 
+It allows for the embedding of molecules into a continuous latent space.
+Subsequently, transfer learning ANN was used to predict the spin states of transition metal complexes.
+
 
 This repository contains the code we used in training of SSVAE, ANN as described in the manuscript. We have also included utility tools for decoding and encoding molecules, so that you can fit and train your own models.
 
@@ -18,6 +20,8 @@ cd LiveTransForM
 conda env create -f environment.yml
 conda activate LiveTransForm
 ```
+LiveTransForM has been tested on PyTorch version 1.13.0 and CUDA version 11.0.
+We highly recommend users to use GPU for accelerating ligand generation
 
 ## Ligand Generation!
 There is an IPython Notebook that you can open using Jupyter and/or other notebooks (not tested) named `script/Genlig.ipynb`. It contains steps how to generate ligand.
@@ -73,7 +77,7 @@ python tl_SSmodel.py -v ../data/latent_vec.csv -i ../data/TL_model_data.pkl --ss
 
 `-ss_label` a json file that contain complex property
 
-# Usage of ANN model fro Spin State Prediction
+# Usage of ANN model for Spin State Prediction
 ```
 python Find_ss.py -x <input xyz file> -s 0.01 -m 50
 ```
