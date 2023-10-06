@@ -45,7 +45,7 @@ def main_sample(output, num, hidden_size=450, latent_size=56, prop_size=2, depth
                 break
             try:
                 denticity = int(user_input)
-                if 1 <= scs_limit <= 6:
+                if 1 <= denticity <= 6:
                     print(f"Denticity set to: {denticity}")
                     # You can perform further processing based on the SCScore here
                     break
