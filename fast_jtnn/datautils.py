@@ -1,7 +1,6 @@
 import torch
 import sys,json
 import time
-import timeout_decorator
 from torch.utils.data import Dataset, DataLoader
 from .mol_tree import *
 import numpy as np
