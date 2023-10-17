@@ -1,6 +1,7 @@
 name: LiveTransForm
 channels:
   - conda-forge
+  - nvidia
   - pytorch
 dependencies:
   - python=3.7.13
@@ -10,7 +11,7 @@ dependencies:
   - numpy=1.21.6
   - openbabel=3.1.0
   - scikit-learn=1.0.2
-  - nvidia::cudatoolkit=11.4
   - pytorch::pytorch
   - scipy
   - tqdm
+  - torchvision
