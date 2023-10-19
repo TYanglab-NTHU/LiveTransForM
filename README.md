@@ -20,8 +20,13 @@ cd LiveTransForM
 conda env create -f environment.yml
 conda activate LiveTransForm
 ```
-LiveTransForM has been tested on PyTorch version 1.13.0 and CUDA version 11.0.
+
+LiveTransForM has been tested on PyTorch version 1.13.0 and CUDA version 11.7.
 We highly recommend users to use GPU for accelerating ligand generation
+
+Note for machines with GPUs: You may need to manually install a GPU-enabled version of PyTorch by following the instructions [here](https://pytorch.org/get-started/locally/). If you're encountering issues with LiveTransForm not using a GPU on your system after following the instructions below, check which version of PyTorch you have installed in your environment using conda list | grep torch or similar. If the PyTorch line includes cpu, please uninstall it using conda remove pytorch and reinstall a GPU-enabled version using the instructions at the link above.
+
+
 
 ## Ligand Generation!
 There is an IPython Notebook that you can open using Jupyter and/or other notebooks (not tested) named `script/Genlig.ipynb`. It contains steps how to generate ligand.
