@@ -18,7 +18,6 @@ validation_denticity = [1,2,3,4,5,6]
 
 def main_sample(output, num, hidden_size=450, latent_size=56, prop_size=2, depthT=20, depthG=3, scs_limit=False, denticity=False, vocab='../data/data_vocab.txt', model_lfs_path='../data/model/JTVAE_model.epoch-89'):
     vocab = [x.strip("\r\n ") for x in open(vocab)]
-    print(model_lfs_path)
     vocab = Vocab(vocab)
     if not scs_limit:
         while True:
@@ -113,4 +112,4 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
     
-    main_sample(args.nsample, args.output_file, args.hidden_size, args.latent_size, args.prop_size,args.depthT, args.depthG, args.scs_limit, args.denticity_limit)
+    main_sample(args.output_file, args.nsample, args.hidden_size, args.latent_size, args.prop_size,args.depthT, args.depthG, args.scs_limit, args.denticity_limit)
