@@ -21,7 +21,7 @@ def main_sample(output, num, hidden_size=450, latent_size=56, prop_size=2, depth
     vocab = Vocab(vocab)
     if not scs_limit:
         while True:
-            user_input = input("Please assign the SCScore for the ligand generation (or press enter if you don't want any limit): ")
+            user_input = input("Please assign the SCScore for the ligand generation (or press enter if you don't want any limit): \n")
             if user_input.lower() == '':
                 print("No limit set for the SCScore.")
                 break
@@ -38,7 +38,7 @@ def main_sample(output, num, hidden_size=450, latent_size=56, prop_size=2, depth
     if not denticity:
         while True:
             user_input = input("Please assign the denticity for the ligand generation (or press enter if you don't want any limit): \n"
-                               "[1,2,3,4,5,6]")
+                               "[1,2,3,4,5,6]\n")
             if user_input.lower() == '':
                 print("No limit set for the denticity.")
                 break
