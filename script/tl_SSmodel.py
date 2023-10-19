@@ -6,14 +6,13 @@ import torch.optim.lr_scheduler as lr_scheduler
 import torch.nn.functional as F
 import sys, os,os,json,pickle
 sys.path.append('../')
-sys.path.append('./SS_utils')
+sys.path.append('../fast_jtnn')
 from fast_jtnn import *
 import pandas as pd
 import numpy as np
 from tqdm import tqdm
 from optparse import OptionParser
 from tqdm import tqdm
-from ligand_class import ligands_pair
 from sklearn.model_selection import train_test_split
 
 class PropNN(nn.Module):
