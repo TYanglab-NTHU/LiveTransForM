@@ -567,7 +567,7 @@ if __name__ == '__main__':
     parser = OptionParser()
     parser.add_option('-v', dest="vocab",default='../data/data_vocab.txt')
     parser.add_option('-x', dest="xyz_file")
-    parser.add_option('-s',dest="step_size",type=int,default=0.01)
+    parser.add_option('-s',dest="step_size",type=float,default=0.01)
     parser.add_option('-m',dest="max_step_size",type=int,default=100)    
     opts,args = parser.parse_args()
     vocab = opts.vocab
