@@ -24,7 +24,7 @@ prop_size = 2
 vocab = os.path.join('../','data','data_vocab.txt')
 vocab = [x.strip("\r\n ") for x in open(vocab)]
 vocab = Vocab(vocab)
-model_path=os.path.join('../','data','vae_model','JTVAE_model.epoch-89')
+model_path=os.path.join('../','data','model','JTVAE_model.epoch-89')
 
 def check_input(input):
     try:
