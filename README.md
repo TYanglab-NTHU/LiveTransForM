@@ -27,7 +27,6 @@ We highly recommend users to use GPU for accelerating ligand generation
 Note for machines with GPUs: You may need to manually install a GPU-enabled version of PyTorch by following the instructions [here](https://pytorch.org/get-started/locally/). If you're encountering issues with LiveTransForm not using a GPU on your system after following the instructions below, check which version of PyTorch you have installed in your environment using conda list | grep torch or similar. If the PyTorch line includes cpu, please uninstall it using conda remove pytorch and reinstall a GPU-enabled version using the instructions at the link above.
 
 
-
 ## Ligand Generation!
 There is an IPython Notebook that you can open using Jupyter and/or other notebooks (not tested) named `script/Genlig.ipynb`. It contains steps how to generate ligand.
 You can also run Python code named `script/ligpool.py` to generate a ligand pool by setting a target SCScore limit and a denticity limit. 
@@ -48,7 +47,7 @@ This gives you the vocabulary of cluster labels over the dataset `jtvae_smi.txt`
 Step 1: Preprocess the data:
 ```
 cd ../script
-python preprocess_vae.py --train ./../data/jtvae_smi.txt --split 100 --jobs 40 --output ./../data/vae_training_data
+python preprocess_vae.py --train ./../data/jtvae_smi.txt --split 21 --jobs 16 --output ./../data/vae_training_data
 ```
 This script will preprocess the training data (subgraph enumeration & tree decomposition), and save results into a list of files. We suggest you to use small value for `--split` if you are working with smaller datasets.
 
