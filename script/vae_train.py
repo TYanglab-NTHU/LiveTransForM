@@ -97,7 +97,6 @@ def main_vae_train(args):
                 nn.utils.clip_grad_norm_(model.parameters(), clip_norm)
                 optimizer.step()
             except Exception as e:
-                print(e)
                 continue
 
             if np.isnan(lfs_loss):
@@ -107,7 +106,7 @@ def main_vae_train(args):
         
             if total_step % print_iter == 0:
                 meters /= print_iter
-                print("[%d] Beta: %.3f, KL: %.2f, Word: %.2f, Topo: %.2f, Assm: %.2f, PNorm: %.2f, GNorm: %.2f, LFS_loss: %.3f, SCS_loss: %.4f, Denticity_loss: %.4f,Nancount: %d") % (total_step, beta, meters[0], meters[1], meters[2], meters[3], param_norm(model), grad_norm(model),meters[4],meters[5],meters[6],nancount)
+                print("[%d] Beta: %.3f, KL: %.2f, Word: %.2f, Topo: %.2f, Assm: %.2f, PNorm: %.2f, GNorm: %.2f, LFS_loss: %.3f, SCS_loss: %.4f, Denticity_loss: %.4f,Nancount: %d" % (total_step, beta, meters[0], meters[1], meters[2], meters[3], param_norm(model), grad_norm(model),meters[4],meters[5],meters[6],nancount))
                 sys.stdout.flush()
                 meters *= 0
                 nancount = 0
