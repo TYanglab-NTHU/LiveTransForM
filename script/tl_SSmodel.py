@@ -13,6 +13,7 @@ import numpy as np
 from tqdm import tqdm
 from optparse import OptionParser
 from tqdm import tqdm
+from ligand_class import ligands_pair
 from sklearn.model_selection import train_test_split
 
 class PropNN(nn.Module):
