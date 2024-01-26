@@ -56,7 +56,7 @@ class Genlig():
         model_lfs.eval()
         self._restored_lfs = True
         self.model_lfs = model_lfs
-        model_ss_path = '../data/model/SS_model.epoch-100'
+        model_ss_path = '../data/model/SS_model.epoch-500'
         dict_buffer = torch.load(model_ss_path, map_location='cuda:0')
         model_ss = PropNN(28,56,0.5)
         model_ss.load_state_dict(dict_buffer)
